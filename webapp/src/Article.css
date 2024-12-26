@@ -1,0 +1,30 @@
+.article-list {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.article-item {
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+  font-size: 1.1rem;
+  color: #333;
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.article-item:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+.article-item:last-child {
+  margin-bottom: 0;
+}
