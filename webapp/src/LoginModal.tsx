@@ -1,7 +1,7 @@
 import "./Login.css";
 
-function LoginModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
-  if (!isOpen) return null;
+export function LoginModal({ setOpenModal }: { setOpenModal: (state: boolean) => void }) {
+
 
   return (
     <div className="modal-overlay">
@@ -28,7 +28,7 @@ function LoginModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
             <button type="submit" className="btn-login">
               Login
             </button>
-            <button type="button" className="btn-close" onClick={onClose}>
+            <button type="button" className="btn-close" onClick={() => setOpenModal(false)}>
               Close
             </button>
           </div>
@@ -38,4 +38,4 @@ function LoginModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
   );
 }
 
-export default LoginModal;
+
