@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState } from 'react';
 import { LoginModal } from "./LoginModal";
-import { Articles } from "./Articles";
+import { Main } from "./Main";
 import { Header } from "./Header";
 
 
@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App">
       <Header setOpenModal={setOpenModal} />
-      <Articles />
+      <Main />
       {isOpenModal && <LoginModal setOpenModal={setOpenModal} />}
     </div >
   );
