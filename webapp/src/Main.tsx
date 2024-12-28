@@ -7,17 +7,17 @@ const articles = [
     {
         id: 1,
         title: 'First article',
-        text: 'Some article text here.Some article text here.Some article text here'
+        content: 'Some article text here.Some article text here.Some article text here'
     }, {
         id: 2,
         title: 'Second article',
-        text: 'Working on a project'
+        content: 'Working on a project'
     }
 ]
-interface Article {
+export interface Article {
     id: number;
     title: string;
-    text: string;
+    content: string;
 }
 
 export interface ArticlesProps {
@@ -58,7 +58,7 @@ function ArticleCard({ articles }: ArticlesProps) {
     return (
         <div className="article-detail">
             <h1>{article.title}</h1>
-            <p>{article.text}</p>
+            <p>{article.content}</p>
             <div className="article-meta">
                 Article ID: {id} | Published on: 2023-01-01
             </div>

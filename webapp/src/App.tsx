@@ -11,7 +11,7 @@ function App() {
   const [isOpenModal, setOpenModal] = useState(false);
 
   return (
-    <div className="App">
+    <div>
       <Header setOpenModal={setOpenModal} />
       <Main />
       {isOpenModal && <LoginModal setOpenModal={setOpenModal} />}
