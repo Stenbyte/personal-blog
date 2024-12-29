@@ -1,6 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
 import { AdminPanel } from "./admin/AdminPanel";
 import "./Article.css";
 import './ArticleCard.css';
+import axios from "axios";
 import { Routes, Route, Link, useParams } from "react-router";
 
 const articles = [
@@ -25,6 +27,24 @@ export interface ArticlesProps {
 }
 
 export function Main() {
+
+    const { data: articles, isLoading, error } = useQuery({
+        queryKey: ['articles'],
+        queryFn: async () => {
+            const response = await axios.get('http://localhost:4000/articles');
+            return response.data;
+        }
+    }
+    );
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error fetching articles: {(error as Error).message}</div>;
+    }
+
     return (
         <Routes>
             <Route path="/" element={<Articles articles={articles} />} />
