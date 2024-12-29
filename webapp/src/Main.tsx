@@ -1,21 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { AdminPanel } from "./admin/AdminPanel";
-import "./Article.css";
-import './ArticleCard.css';
-import axios from "axios";
-import { Routes, Route, Link, useParams } from "react-router";
 
-const articles = [
-    {
-        id: 1,
-        title: 'First article',
-        content: 'Some article text here.Some article text here.Some article text here'
-    }, {
-        id: 2,
-        title: 'Second article',
-        content: 'Working on a project'
-    }
-]
+import { AdminPanel } from "./admin/AdminPanel";
+import { Routes, Route } from "react-router";
+import { ArticleCard, Articles } from "./Articles/Articles";
+
 export interface Article {
     id: number;
     title: string;
@@ -28,61 +15,14 @@ export interface ArticlesProps {
 
 export function Main() {
 
-    const { data: articles, isLoading, error } = useQuery({
-        queryKey: ['articles'],
-        queryFn: async () => {
-            const response = await axios.get('http://localhost:4000/articles');
-            return response.data;
-        }
-    }
-    );
-
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>Error fetching articles: {(error as Error).message}</div>;
-    }
-
     return (
         <Routes>
-            <Route path="/" element={<Articles articles={articles} />} />
-            <Route path="/articles/:id" element={<ArticleCard articles={articles} />} />
-            <Route path="/admin" element={<AdminPanel articles={articles} />} />
+            <Route path="/" element={<Articles />} />
+            <Route path="/articles/:id" element={<ArticleCard />} />
+            {/* <Route path="/admin" element={<AdminPanel />} /> */}
         </Routes>
     )
 }
 
-function Articles({ articles }: ArticlesProps) {
-    return (
-        <div className="article-list">
-            {articles.map((article) => (
-                <div className="article-item" key={article.id}>
-                    <Link to={`/articles/${article.id}`} style={{ color: "grey" }}>{article.title}</Link>
-                </div>
-            ))}
-        </div>
-    )
-}
 
-function ArticleCard({ articles }: ArticlesProps) {
-    const { id } = useParams();
-
-    const article = articles.find((art) => art.id === Number(id));
-
-    if (!article) {
-        return <div>Article not found.</div>;
-    }
-
-    return (
-        <div className="article-detail">
-            <h1>{article.title}</h1>
-            <p>{article.content}</p>
-            <div className="article-meta">
-                Article ID: {id} | Published on: 2023-01-01
-            </div>
-        </div>
-    );
-}
 
