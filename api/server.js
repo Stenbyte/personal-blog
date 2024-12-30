@@ -4,6 +4,7 @@ const app = express();
 const port = 4000;
 
 app.use(cors());
+app.use(express.json());
 const articles = [
   {
     id: 1,
@@ -29,7 +30,13 @@ app.get("/articles/:articleId", (req, res) => {
 });
 
 app.post("/create", (req, res) => {
-  console.log("create request");
+  const newArticle = req.body;
+  if (newArticle) {
+    articles.push(newArticle);
+    res.status(200).json(newArticle);
+  } else {
+    console.log("Oooooops");
+  }
 });
 
 app.listen(port, () => {

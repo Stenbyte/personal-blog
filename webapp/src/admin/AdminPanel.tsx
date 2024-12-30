@@ -3,14 +3,29 @@ import { Article } from "../Main";
 import './CreateArticle.css';
 import axios from "axios";
 import { Articles } from "../Articles/Articles";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 export function AdminPanel() {
 
+    const queryClient = useQueryClient();
+    const mutattion = useMutation({
+        mutationFn: (newArticle: Article) => {
+            return axios.post('http://localhost:4000/create', newArticle)
+        },
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                queryKey: ['articles']
+            })
+        },
+        onError: (error) => {
+            console.error('Mutation failed:', error);
+        }
+    })
 
     const [isCreating, setIsCreating] = useState(false);
     const handleCreateClick = () => setIsCreating(true);
     const handleFormSubmit = (article: Article) => {
-        // handle post here
+        mutattion.mutate(article)
         setIsCreating(false);
     };
 
@@ -57,6 +72,7 @@ function ArticleForm({ onSubmit, onClose }: ArticleFormProps) {
                 <input
                     id="title"
                     type="text"
+                    required
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
@@ -65,6 +81,7 @@ function ArticleForm({ onSubmit, onClose }: ArticleFormProps) {
                 <label htmlFor="content">Content:</label>
                 <textarea
                     id="content"
+                    required
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                 />
