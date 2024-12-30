@@ -19,7 +19,7 @@ export function Main() {
         <Routes>
             <Route path="/" element={<Articles />} />
             <Route path="/articles/:id" element={<ArticleCard />} />
-            {/* <Route path="/admin" element={<AdminPanel />} /> */}
+            <Route path="/admin" element={<AdminPanel />} />
         </Routes>
     )
 }

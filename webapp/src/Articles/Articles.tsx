@@ -5,7 +5,7 @@ import "./Article.css";
 import './ArticleCard.css';
 import { Article } from "../Main";
 
-export function Articles() {
+export function Articles({ admin }: { admin?: boolean }) {
     const { data: articles, isLoading, error } = useQuery({
         queryKey: ['articles'],
         queryFn: async () => {
@@ -14,19 +14,35 @@ export function Articles() {
         }
     }
     );
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
-
-
+    if (error) {
+        return <div>Error fetching articles: {(error as Error).message}</div>;
+    }
     return (
         <div>
-            {(isLoading || error) && isLoadingOrError(isLoading, error)}
-            {(!isLoading || !error) && <div className="article-list">
+            <div className="article-list">
                 {articles.map((article: Article) => (
                     <div className="article-item" key={article.id}>
                         <Link to={`/articles/${article.id}`} style={{ color: "grey" }}>{article.title}</Link>
+                        <div className="dropdown-container">
+                            {admin && <p>Id: {article.id}</p>}
+                            {admin && (
+                                <div className="dropdown">
+                                    <button className="dropdown-button">...</button>
+                                    <div className="dropdown-menu">
+                                        <button className="dropdown-item">Edit</button>
+                                        <button className="dropdown-item">Delete</button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
                     </div>
                 ))}
-            </div>}
+            </div>
         </div>
     )
 }
@@ -45,6 +61,13 @@ export function ArticleCard() {
     }
     );
 
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error fetching articles: {(error as Error).message}</div>;
+    }
 
 
     if (!article) {
@@ -53,24 +76,13 @@ export function ArticleCard() {
 
     return (
         <div>
-            {(isLoading || error) && isLoadingOrError(isLoading, error)}
-            {(!isLoading || !error) && <div className="article-detail">
+            <div className="article-detail">
                 <h1>{article.title}</h1>
                 <p>{article.content}</p>
                 <div className="article-meta">
                     Article ID: {id} | Published on: 2023-01-01
                 </div>
-            </div>}
+            </div>
         </div>
     );
-}
-
-function isLoadingOrError(isLoading: boolean, error: Error | null) {
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>Error fetching articles: {(error as Error).message}</div>;
-    }
 }
