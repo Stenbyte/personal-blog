@@ -1,19 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
 const app = express();
 const port = 4000;
-const connectionString = `mongodb://host1:27017,host2:27017,host3:27017/?replicaSet=myRs`;
+const { connectToDb } = require("./db.js");
 app.use(cors());
 app.use(express.json());
-
-const client = new MongoClient(connectionString, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
 
 const articles = [
   {
@@ -28,20 +19,6 @@ const articles = [
     content: "Working on a project",
   },
 ];
-
-async function run() {
-  try {
-    await client.connect();
-
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
-  } catch (error) {
-    await client.close();
-    throw Error(error);
-  }
-}
 
 app.get("/articles", (req, res) => {
   res.send(articles);
@@ -65,8 +42,7 @@ app.post("/create", (req, res) => {
 
 async function startServer() {
   try {
-    await run();
-
+    await connectToDb();
     app.listen(port, () => {
       console.log(`Server listening on port ${port}`);
     });
