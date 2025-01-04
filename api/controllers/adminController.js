@@ -13,19 +13,18 @@ export async function createArticle(req, res) {
   }
 }
 
-export async function getArticles(req, res) {
+export async function getArticles() {
   const db = client;
 
   const adminDb = await db.db("admin");
 
   const getAllArticles = await adminDb
-    .collection("articles")
+    .collection("articless")
     .find({})
     .toArray();
+
   if (getAllArticles) {
-    res.status(200).json(getAllArticles);
-  } else {
-    console.log("OOOpppps");
+    return getAllArticles;
   }
 }
 

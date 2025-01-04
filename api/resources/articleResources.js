@@ -5,10 +5,11 @@ const {
 } = require("../controllers/adminController");
 
 const express = require("express");
+const defaultController = require("../middleware/defaultController");
 
 const router = express.Router();
 
-router.get("/articles", getArticles);
+router.get("/articles", defaultController(getArticles));
 router.get("/articles/:articleId", getArticle);
 router.post("/create", createArticle);
 
