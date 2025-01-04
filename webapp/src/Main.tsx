@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router";
 import { ArticleCard, Articles } from "./Articles/Articles";
 
 export interface Article {
-    id: number;
+    _id?: number;
     title: string;
     content: string;
 }

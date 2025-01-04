@@ -57,7 +57,6 @@ function ArticleForm({ onSubmit, onClose }: ArticleFormProps) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const newArticle: Article = {
-            id: Date.now(),
             title,
             content,
         };

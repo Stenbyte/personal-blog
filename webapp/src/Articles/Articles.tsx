@@ -25,10 +25,10 @@ export function Articles({ admin }: { admin?: boolean }) {
         <div>
             <div className="article-list">
                 {articles.map((article: Article) => (
-                    <div className="article-item" key={article.id}>
-                        <Link to={`/articles/${article.id}`} style={{ color: "grey" }}>{article.title}</Link>
+                    <div className="article-item" key={article._id}>
+                        <Link to={`/articles/${article._id}`} style={{ color: "grey" }}>{article.title}</Link>
                         <div className="dropdown-container">
-                            {admin && <p>Id: {article.id}</p>}
+                            {admin && <p>Id: {article._id}</p>}
                             {admin && (
                                 <div className="dropdown">
                                     <button className="dropdown-button">...</button>
