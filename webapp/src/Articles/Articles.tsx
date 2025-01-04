@@ -24,7 +24,7 @@ export function Articles({ admin }: { admin?: boolean }) {
     return (
         <div>
             <div className="article-list">
-                {articles.map((article: Article) => (
+                {articles.data.map((article: Article) => (
                     <div className="article-item" key={article._id}>
                         <Link to={`/articles/${article._id}`} style={{ color: "grey" }}>{article.title}</Link>
                         <div className="dropdown-container">
