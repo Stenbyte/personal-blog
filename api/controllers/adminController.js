@@ -1,16 +1,14 @@
 import { ObjectId } from "mongodb";
 import { client } from "../db.js";
 
-export async function createArticle(req, res) {
-  const newArticle = req.body;
+export async function createArticle(req) {
+  const newArticleToAdd = req.body;
   const db = client;
-  if (newArticle) {
-    await db.db("admin").collection("articles").insertOne(newArticle);
-    res.status(200).json(newArticle);
-  } else {
-    console.log("Oooooops");
-    res.status(400);
-  }
+  const newArticle = await db
+    .db("admin")
+    .collection("articles")
+    .insertOne(newArticleToAdd);
+  return newArticle;
 }
 
 export async function getArticles() {
@@ -19,7 +17,7 @@ export async function getArticles() {
   const adminDb = await db.db("admin");
 
   const getAllArticles = await adminDb
-    .collection("articless")
+    .collection("articles")
     .find({})
     .toArray();
 
@@ -35,5 +33,5 @@ export async function getArticle(req, res) {
   const getArticleById = await db
     .collection("articles")
     .findOne({ _id: ObjectId.createFromHexString(articleId) });
-  res.status(200).json(getArticleById);
+  return getArticleById;
 }
