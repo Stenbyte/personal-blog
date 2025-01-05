@@ -77,8 +77,8 @@ export function ArticleCard() {
     return (
         <div>
             <div className="article-detail">
-                <h1>{article.title}</h1>
-                <p>{article.content}</p>
+                <h1>{article.data.title}</h1>
+                <p>{article.data.content}</p>
                 <div className="article-meta">
                     Article ID: {id} | Published on: 2023-01-01
                 </div>
