@@ -23,5 +23,8 @@ async function connectToDb() {
     throw Error(error);
   }
 }
-
-module.exports = { client, connectToDb };
+async function getDb(collection) {
+  const getDbCollection = await client.db("admin").collection(collection);
+  return getDbCollection;
+}
+module.exports = { connectToDb, getDb };
