@@ -27,4 +27,4 @@ async function getDb(collection) {
   const getDbCollection = await client.db("admin").collection(collection);
   return getDbCollection;
 }
-module.exports = { connectToDb, getDb };
+module.exports = { client, connectToDb, getDb };
