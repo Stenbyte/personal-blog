@@ -3,7 +3,7 @@ const cors = require("cors");
 const app = express();
 const port = 4000;
 const { connectToDb } = require("./db.js");
-const errorHandler = require("./middleware/errorHandler.js");
+const { errorHandler } = require("./middleware/errorHandler.js");
 
 const articleRoutes = require("./resources/articleResources.js");
 
