@@ -1,19 +1,21 @@
 import { ObjectId } from "mongodb";
-import { client, getDb } from "../db.js";
+import { getDb } from "../db.js";
+
+let db;
+
+(async () => {
+  db = await getDb();
+})();
 
 export async function createArticle(req) {
   const newArticleToAdd = req.body;
   throwIfArticleHasMissingFields(newArticleToAdd);
-  const articlesCollection = await getDb("articles");
-
-  const newArticle = await articlesCollection.insertOne(newArticleToAdd);
+  const newArticle = await db.collection("articles").insertOne(newArticleToAdd);
   return newArticle;
 }
 
 export async function getArticles() {
-  const articlesCollection = await getDb("articles");
-
-  const getAllArticles = await articlesCollection.find({}).toArray();
+  const getAllArticles = await db.collection("articles").find({}).toArray();
 
   return getAllArticles;
 }
@@ -23,9 +25,8 @@ export async function getArticle(req) {
   if (!ObjectId.isValid(articleId)) {
     throw Error("Article id must be type of ObjectId");
   }
-  const articlesCollection = await getDb("articles");
 
-  const getArticleById = await articlesCollection.findOne({
+  const getArticleById = await db.collection("articles").findOne({
     _id: ObjectId.createFromHexString(articleId),
   });
   return getArticleById;
@@ -52,14 +53,11 @@ export async function createUser(req) {
       "Password must be at least 8 characters long and contain at least one letter and one number"
     );
   }
-  const articlesCollection = await client
-    .db("masterDb")
-    .createCollection("users");
-
-  const createdUser = await articlesCollection.insertOne({
+  const createdUser = await db.createCollection("users").insertOne({
     email: email,
     password: password,
   });
+
   // needs validation if user already exist or password
   return createdUser;
 }

@@ -14,7 +14,7 @@ async function connectToDb() {
   try {
     await client.connect();
 
-    await client.db("admin").command({ ping: 1 });
+    await client.db("masterDb").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
@@ -23,8 +23,8 @@ async function connectToDb() {
     throw Error(error);
   }
 }
-async function getDb(collection) {
-  const getDbCollection = await client.db("admin").collection(collection);
-  return getDbCollection;
+async function getDb() {
+  const getDb = await client.db("masterDb");
+  return getDb;
 }
-module.exports = { client, connectToDb, getDb };
+module.exports = { connectToDb, getDb };
