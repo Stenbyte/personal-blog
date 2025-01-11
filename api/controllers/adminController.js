@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { getDb } from "../db.js";
-import { CustomError } from "../middleware/errorHandler.js";
+import { customError } from "../middleware/errorHandler.js";
 
 let db;
 
@@ -35,8 +35,7 @@ export async function getArticle(req) {
 
 function throwIfArticleHasMissingFields(article) {
   if (!article || article.title.length === 0 || article.content.length === 0) {
-    const error = new CustomError("Article fields must be filled up");
-    error.statusCode = 400;
+    const error = customError("Article fields must be filled up", 400);
     throw error;
   }
 }
@@ -47,17 +46,16 @@ export async function createUser(req) {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    const error = new CustomError("Invalid email format");
-    error.statusCode = 400;
+    const error = customError("Invalid email format", 400);
     throw error;
   }
 
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
   if (!passwordRegex.test(password)) {
-    const error = new CustomError(
-      "Password must be at least 8 characters long and contain at least one letter and one number"
+    const error = customError(
+      "Password must be at least 8 characters long and contain at least one letter and one number",
+      400
     );
-    error.statusCode = 400;
     throw error;
   }
   const createdUser = await db.createCollection("users").insertOne({

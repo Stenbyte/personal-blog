@@ -2,6 +2,11 @@ function errorHandler(err, req, res, next) {
   if (res.headersSent) {
     return next(err);
   }
+  console.log("----------------------------------------------------");
+  console.error(
+    `[ERROR] ${err.name}: ${err.message} (Status: ${err.statusCode || 500})`
+  );
+  console.error(err.stack);
   const statusCode = err.statusCode || 500;
   res.status(statusCode).json({
     success: false,
@@ -21,4 +26,8 @@ class CustomError extends Error {
   }
 }
 
-module.exports = { errorHandler, CustomError };
+function customError(message, statusCode) {
+  return new CustomError(message, statusCode);
+}
+
+module.exports = { errorHandler, customError };
