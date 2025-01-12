@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const error = require("mongoose/lib/error");
 const { customError } = require("./middleware/errorHandler");
 
-const connectionString = `mongodb://127.0.0.1:27017/masterDb`;
+const connectionString = `mongodb://127.0.0.1:27017`;
 
 let connection;
 async function connectToDb() {
@@ -24,7 +24,9 @@ async function connectToDb() {
       mongoose.connection.on("close", () =>
         console.log("🔌 Connection to MongoDB closed")
       );
-      connection = await mongoose.connect(connectionString);
+      connection = await mongoose.connect(connectionString, {
+        dbName: "masterDb",
+      });
       process.env.masterDbReady = "true";
     }
 
