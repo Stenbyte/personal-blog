@@ -1,30 +1,23 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const mongoose = require("mongoose");
+const error = require("mongoose/lib/error");
 
-const connectionString = `mongodb://localhost:27017`;
+const connectionString = `mongodb://127.0.0.1:27017/masterDb`;
 
-const client = new MongoClient(connectionString, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
-
+let connection;
 async function connectToDb() {
   try {
-    await client.connect();
-
-    await client.db("masterDb").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    if (!connection) {
+      connection = await mongoose.connect(connectionString);
+      process.env.masterDbReady = "true";
+    }
+    return connection;
   } catch (error) {
-    await client.close();
     throw Error(error);
   }
 }
-async function getDb() {
-  const getDb = await client.db("masterDb");
-  return getDb;
+
+function getDb() {
+  return connection.connection;
 }
+
 module.exports = { connectToDb, getDb };
