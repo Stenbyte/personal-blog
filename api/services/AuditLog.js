@@ -1,21 +1,16 @@
 import { customError } from "../middleware/errorHandler.js";
+import AuditLog from "../models/AuditLogModel.js";
 
-export default class AuditLog {
-  constructor(db) {
-    this.db = db;
-    this.collection = db.collection("audit_logs");
-  }
-
+export default class Audit {
   async log(action, userId, details) {
     try {
-      const logEntry = {
+      const audit = new AuditLog({
         action,
         userId,
         details,
         created: new Date(),
-      };
-
-      await this.collection.insertOne(logEntry);
+      });
+      await audit.save();
     } catch (error) {
       customError(error.message, error.statusCode);
     }
