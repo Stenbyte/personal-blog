@@ -1,9 +1,9 @@
 const { default: mongoose } = require("mongoose");
 
 const auditLogSchema = new mongoose.Schema({
-  email: String,
-  password: String,
-  created: Date,
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+  created: { type: Date, default: Date.now },
 });
 
 const User = mongoose.model("Users", auditLogSchema);

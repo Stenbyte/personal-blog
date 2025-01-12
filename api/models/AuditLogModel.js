@@ -1,10 +1,10 @@
 const { default: mongoose } = require("mongoose");
 
 const auditLogSchema = new mongoose.Schema({
-  action: String,
-  userId: String,
-  details: Object,
-  created: Date,
+  action: { type: String, required: true },
+  userId: { type: String, required: false },
+  details: { type: Object, required: false },
+  created: { type: Date, default: Date.now },
 });
 
 const AuditLog = mongoose.model("AuditLog", auditLogSchema);
